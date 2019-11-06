@@ -32,24 +32,21 @@ int		main(int argc, char **argv)
 		{		
 				fd = open(argv[i], O_RDONLY);
 				//ft_putnbr(fd);
-			//while (continue_reading)
-			//{
-			//	ft_putstr("to continue reading, write yes. to quit, write quit.");
-			//	fd_read = get_next_line(0, &buffer);
-			//	if (ft_strequ(buffer, "quit"))
-			//		return (1);
-			//	else if (ft_strequ(buffer, "yes"))
-			//	{
+			while (fd_read > 0)
+			{
+				ft_putstr("to continue reading, write yes. to quit, write quit.");
+				fd_read = get_next_line(0, &buffer);
+				if (ft_strequ(buffer, "quit"))
+					return (1);
+				else if (ft_strequ(buffer, "yes"))
+				{
 					//ft_putendl("inside else");
-					//while (fd_read > 0)
-					//{
-					//	ft_putendl("inside while");
-						fd_read = get_next_line(fd, &buffer);
-						ft_putstr(buffer);
-					//	ft_putchar('\n');
-					//}
-				//}
-			//}	
+						//ft_putendl("inside while");
+					fd_read = get_next_line(fd, &buffer);
+					ft_putstr(buffer);
+					ft_putchar('\n');
+				}
+			}	
 		i++;
 		}
 	}
