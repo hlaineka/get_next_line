@@ -1,2 +1,5 @@
 *.o
 get_next_line
+.*
+*~
+test*
