@@ -26,7 +26,6 @@ then:
 
 clean:
 	rm -f $(OSRC)
-	rm -f libft/
 
 fclean: clean
 	rm -f $(NAME)

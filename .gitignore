@@ -3,3 +3,6 @@ get_next_line
 .*
 *~
 test*
+cmake-build-debug/*
+CMakeLists.txt
+
