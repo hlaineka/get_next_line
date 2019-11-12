@@ -19,7 +19,7 @@ static void		add_fd_list(fd_list **all_fds,char *all_data,int fd)
 		if  (index->fd == fd && fd == 0)
 		{
 			temp->next = index->next;
-			ft_putendl("inside if fd == 0 at add_fd_list");
+			//ft_putendl("inside if fd == 0 at add_fd_list");
 			if (previous)
 				previous->next = temp;
 			else
@@ -55,7 +55,7 @@ static void		remove_list(fd_list **all_fds, int fd)
 	fd_list		*temp;
 	fd_list		*previous;
 
-	ft_putendl("inside remove list");
+	//ft_putendl("inside remove list");
 	temp = *all_fds;
 	if (temp->fd == fd)
 	{	
@@ -116,7 +116,7 @@ static int		return_list_data(fd_list **all_fds, char **return_str, int fd)
 		//if (i > 0)
 		//	*return_str = ft_strsub(temp->data, 0, i);
 		//else
-			*return_str = ft_strdup(temp->data);
+		*return_str = ft_strdup(temp->data);
 		remove_list(all_fds, fd);
 		return (0);
 	}

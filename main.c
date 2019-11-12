@@ -23,8 +23,8 @@ int		main(int argc, char **argv)
 			fd_read = get_next_line(0, &buffer);
 			ft_putstr("you inserted: ");
 			ft_putendl(buffer);
+			free(buffer);
 		}
-		free(buffer);
 	}
 	if (argc == 2)
 	{
@@ -34,21 +34,26 @@ int		main(int argc, char **argv)
 				ft_putstr("to continue reading, write yes. to quit, write quit. ");
 				fd_read = get_next_line(0, &buffer);
 				if (ft_strequ(buffer, "quit"))
-					return (1);
+				{	
+					free(buffer);
+					while (1);
+				}
 				else if (ft_strequ(buffer, "yes"))
 				{
 					//ft_putendl("inside else");
+					free(buffer);
 					fd_read = get_next_line(fd, &buffer);
 					if (fd_read == -1)
 					{
 						ft_putendl ("error while reading the input");
+						free(buffer);
 						return (-1);
 					}
 					ft_putstr(buffer);
 					ft_putchar('\n');
+					free(buffer);
 				}
 			}
-			free(buffer);	
 	}
 	if (argc > 2)
 	{
@@ -75,12 +80,17 @@ int		main(int argc, char **argv)
 				w++;
 			}
 			if (ft_strequ(buffer, "quit"))
-				return (1);
+			{	
+				free(buffer);
+				while(1)
+				{}
+			}
 			else if (int_buffer != 1)
 				ft_putendl("string you entered is not a number");
 			else if (int_buffer == 1)
 			{
 				fd = ft_atoi(buffer);
+				free(buffer);
 				fd_read = get_next_line(fd, &buffer);
 				if (fd_read == -1)
 				{
@@ -98,11 +108,8 @@ int		main(int argc, char **argv)
 					ft_putchar('.');
 					ft_putchar('\n');
 				}
+			free(buffer);
 			}
 		}
-		free(buffer);
 	}
-
-	while(1)
-	{}
 }
