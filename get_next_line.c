@@ -1,69 +1,62 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hlaineka <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/13 11:09:26 by hlaineka          #+#    #+#             */
+/*   Updated: 2019/11/13 11:16:29 by hlaineka         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
-static void		add_fd_list(fd_list **all_fds,char *all_data,int fd)
+static int		add_fdlist(t_fdlist **all_fds, char *all_data, int fd)
 {
-	fd_list		*temp;
-	fd_list		*index;
-	fd_list		*previous;
-	//char		*to_remove;
+	t_fdlist	*temp;
+	t_fdlist	*index;
+	t_fdlist	*previous;
 
-	//index = (fd_list*)malloc(sizeof(fd_list));
 	index = *all_fds;
-	temp = (fd_list*)malloc(sizeof(fd_list));
+	temp = (t_fdlist*)malloc(sizeof(t_fdlist));
+	if (temp == NULL)
+		return (-1);
 	temp->data = ft_strdup(all_data);
 	temp->fd = fd;
 	temp->next = NULL;
 	previous = NULL;
 	while (index)
 	{
-		if  (index->fd == fd && fd == 0)
+		if (index->fd == fd)
 		{
-			temp->next = index->next;
-			//ft_putendl("inside if fd == 0 at add_fd_list");
-			if (previous)
-				previous->next = temp;
-			else
-				*all_fds = temp;
-			//to_remove = index->data;
-			//ft_putendl(to_remove);
-			//free(to_remove);
-			free(index->data);
-			free(index);
-			return;
-		}
-		else if (index->fd == fd)
-		{	
 			free(temp->data);
 			free(temp);
 			free(index);
-			return; 
+			return (0);
 		}
 		previous = index;
 		index = index->next;
 	}
 	if (previous)
-	{	
 		previous->next = temp;
-	}
 	else
 		*all_fds = temp;
-	//ft_putendl("end of add_fd_list"); //does it go here every time with fd 0
+	return(1);
 }
 
-static void		remove_list(fd_list **all_fds, int fd)
+static void		remove_list(t_fdlist **all_fds, int fd)
 {
-	fd_list		*temp;
-	fd_list		*previous;
+	t_fdlist	*temp;
+	t_fdlist	*previous;
 
-	//ft_putendl("inside remove list");
 	temp = *all_fds;
 	if (temp->fd == fd)
-	{	
-		//ft_putendl("inside remove first");
+	{
 		*all_fds = temp->next;
 		free(temp->data);
 		free(temp);
-		return;
+		return ;
 	}
 	while (temp->fd != fd && temp != NULL)
 	{
@@ -73,60 +66,42 @@ static void		remove_list(fd_list **all_fds, int fd)
 	previous->next = temp->next;
 	free(temp->data);
 	free(temp);
-	return;
+	return ;
 }
 
-static int		check_fd(fd_list **all_fds, int fd)
+static int		return_list_data(t_fdlist **all_fds, char **return_str, int fd, int check)
 {
-	fd_list		*temp;
-
-	//ft_putendl("inside check fd");
-	//temp = (fd_list*)malloc(sizeof(fd_list*));
-	temp = *all_fds;
-	if (temp == NULL)
-		return (-1);
-	while (temp != NULL && temp->fd != fd)
-		temp = temp->next;
-	if (temp == NULL)
-		return (-1);
-	//free(temp);
-	return (1);
-}
-
-static int		return_list_data(fd_list **all_fds, char **return_str, int fd)
-{
-	fd_list		*temp;
+	t_fdlist	*temp;
 	char		*returnable;
 	int			i;
+	int			w;
 	char		*temp_str;
 
-	//temp = (fd_list*)malloc(sizeof(fd_list*));
 	temp = *all_fds;
-	returnable = NULL;
+	returnable = "";
 	i = 0;
+	w = 0;
+	if (temp == NULL && check == 1)
+		return (-1);
 	while (temp != NULL && temp->fd != fd)
 		temp = temp->next;
+	if (temp == NULL && check == 1)
+		return (-1);
+	if (check == 1)
+		return (3);
 	while (temp->data[i] != '\n' && temp->data[i] != '\0')
 		i++;
-	//ft_putnbr(i);
-	//ft_putchar('\n');
-	if (temp->data[i] == '\0' && fd != 0) //|| fd == 0)
-	{	
-		//ft_putendl("do we get here?");
-		//if (i > 0)
-		//	*return_str = ft_strsub(temp->data, 0, i);
-		//else
-		*return_str = ft_strdup(temp->data);
+	while (temp->data[i + w] == '\n')
+		w++;
+	*return_str = ft_strsub(temp->data, 0, i);	 
+	if (temp->data[i + w] == '\0')
+	{
 		remove_list(all_fds, fd);
-		return (0);
+		return (1);
 	}
-	returnable = ft_strsub(temp->data, 0, i);
-	*return_str = ft_strdup(returnable);
-	temp_str = ft_strdup(&temp->data[i + 1]);
+	temp_str = ft_strdup(&temp->data[i + w]);
 	free(temp->data);
 	temp->data = ft_strdup(temp_str);
-	//ft_putendl("temp data:");
-	//ft_putendl(temp->data);
 	free(returnable);
 	free(temp_str);
 	return (1);
@@ -138,7 +113,7 @@ static void		ft_dynamic_string(char **dest, char *src, int num)
 	char	*temp_src;
 
 	temp_src = ft_strnew(num + 1);
-	temp_src = memcpy(temp_src, src, num);
+	temp_src = ft_memcpy(temp_src, src, num);
 	temp_src[num] = '\0';
 	returnable = NULL;
 	if (!*dest)
@@ -152,47 +127,48 @@ static void		ft_dynamic_string(char **dest, char *src, int num)
 	}
 	free(returnable);
 	free(temp_src);
-	return;
+	return ;
 }
 
-int		get_next_line(const int fd, char **line)
+int				get_next_line(const int fd, char **line)
 {
 	int				bytes_read;
 	char			*buffer;
 	char			*all_data;
-	static fd_list	*all_fds = NULL;
-	//char			*temp;
+	static t_fdlist	*all_fds = NULL;
 	int				returnable;
-	
 
 	all_data = NULL;
 	buffer = ft_strnew(BUFF_SIZE);
-	//temp = NULL;
-	//ft_putendl("in the beginning");
+	*line = ft_strnew(BUFF_SIZE);
+	returnable = 0;
+	bytes_read = BUFF_SIZE;
 	if (fd == -1)
 		return (-1);
-	if (check_fd(&all_fds, fd) == -1 || fd == 0)
+	if (return_list_data(&all_fds, line, fd, 1) == -1)
 	{
-		//ft_putendl("just inside if");
-		bytes_read = read(fd, buffer, BUFF_SIZE);
-		ft_dynamic_string(&all_data, buffer, bytes_read);
-		//ft_putendl("before read while");
 		while (bytes_read == BUFF_SIZE)
 		{
-			//free(buffer);
-			if (fd == 0 && buffer[BUFF_SIZE - 1] == '\n')
-				break;
 			bytes_read = read(fd, buffer, BUFF_SIZE);
 			ft_dynamic_string(&all_data, buffer, bytes_read);
+			if (bytes_read == 0)
+			{	
+				free (buffer);
+				return (0);
+			}
+			if (bytes_read == -1)
+			{
+				free (buffer);
+				return (-1);
+			}
+			else if (fd == 0 && buffer[BUFF_SIZE - 1] == '\n')
+				break ;	
 		}
-		//ft_putendl("before add fd list");
-		add_fd_list(&all_fds, all_data, fd);
+		if (add_fdlist(&all_fds, all_data, fd) == -1)
+			return (-1);
 	}
-	//ft_putendl("after read while");
-	returnable = return_list_data(&all_fds, line, fd);
-	//ft_putendl("after return list data");
+	returnable = return_list_data(&all_fds, line, fd, 0);
 	free(all_data);
 	free(buffer);
-	//free(temp);
-	return(returnable);
+	return (returnable);
 }
