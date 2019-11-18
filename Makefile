@@ -29,6 +29,21 @@ then2:
 	clang -Wall -Wextra -Werror -I libft/includes -o main2.o -c main2.c
 	clang -o get_next_line2 main2.o get_next_line.o -I libft/includes -L libft/ -lft
 
+then3: 
+	clang -Wall -Wextra -Werror -I libft/includes -o get_next_line.o -c get_next_line.c
+	clang -Wall -Wextra -Werror -I libft/includes -o main3.o -c main3.c
+	clang -o get_next_line3 main3.o get_next_line.o -I libft/includes -L libft/ -lft
+
+then4: 
+	clang -Wall -Wextra -Werror -I libft/includes -o get_next_line.o -c get_next_line.c
+	clang -Wall -Wextra -Werror -I libft/includes -o main4.o -c main4.c
+	clang -o get_next_line4 main4.o get_next_line.o -I libft/includes -L libft/ -lft
+
+then5: 
+	clang -Wall -Wextra -Werror -I libft/includes -o get_next_line.o -c get_next_line.c
+	clang -Wall -Wextra -Werror -I libft/includes -o main5.o -c main5.c
+	clang -o get_next_line5 main5.o get_next_line.o -I libft/includes -L libft/ -lft
+
 clean:
 	rm -f $(OSRC)
 
