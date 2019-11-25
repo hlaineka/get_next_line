@@ -36,6 +36,5 @@ char	*ft_strsub(const char *s, unsigned int start, size_t len)
 		returnable[i] = '\0';
 		return (returnable);
 	}
-	free(returnable);
 	return (NULL);
 }

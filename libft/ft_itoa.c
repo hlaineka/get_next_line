@@ -27,7 +27,6 @@ char		*ft_itoa(int n)
 		str[w + 1] = ('\0');
 		if (n == T_INT_MIN)
 		{
-			free (str);
 			return (ft_strdup("-2147483648"));
 		}
 		if (n < 0)

@@ -35,6 +35,7 @@ static int	number_of_words(const char *s, char c)
 				counter++;
 			i++;
 		}
+		i++;
 	}
 	return (counter);
 }
