@@ -117,16 +117,18 @@ int		get_next_line(const int fd, char** line)
 		return (-1);
 	check_fd(fd, &all_data, &all_fds);
 	buf = ft_strnew(BUFF_SIZE);
-	while (search_newline(&returnable_data, &all_data) == 0 && bytes > 0)
+	while (bytes > 0 && search_newline(&returnable_data, &all_data) == 0)
 	{
 		bytes = read(fd, buf, BUFF_SIZE);
 		ft_dynamic_string(&all_data, buf, bytes);
 		if (fd == 0 && buf[BUFF_SIZE - 1] == '\n')
 			break;
+		ft_putendl("hello5");
 	}
+	ft_putendl("hello4");
 	if (bytes == -1)
 		return (-1);
-	if (search_newline(&returnable_data, &all_data) == 0 && bytes == 0)
+	if (bytes == 0 && search_newline(&returnable_data, &all_data) == 0)
 		return (0);
 	free(buf);
 	ft_lstaddcont(&all_fds, fd, all_data);
