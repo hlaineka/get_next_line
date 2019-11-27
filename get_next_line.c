@@ -1,81 +1,73 @@
 #include "get_next_line.h"
 
+static void		ft_add_string(char ***array, const char *str, int size)
+{
+    int 	i;
+	char	**temp;
+    
+	i = 0;
+	while (*(array + i) != NULL)
+		i++;
+	ft_putendl("wtf3");
+	if (i == 0)
+	{	
+		*array = (char**)malloc(sizeof(char*));
+		array[0][0] = (char*)malloc(sizeof(char*));
+		array[0][0] = NULL;
+	}
+	while (i <= size)
+	{
+		temp = (char**)malloc(sizeof(char*) * (i + 1));
+		ft_memcpy(temp, *array, sizeof(char*) * i);
+		free (*array);
+    	ft_memcpy(*array, temp, sizeof(char*) * (i));
+		//free(temp);
+		array[0][i] = ft_strnew(1);
+		array[0][i + 1] = NULL;
+		i++;
+		ft_putendl("wtf");
+	}
+	free(array[0][size]);
+	ft_putendl("wtf2");
+	array[0][size] = ft_strdup(str);
+	ft_putstr("array[size] in ft_add_string: ");
+	ft_putendl(array[0][size]);
+}
+
 static int		search_newline(char **dest, char **src)
 {
 	int		i;
-	int		w;
 	char	*temp_str;
 	
 	i = 0;
-	w = 0;
-	ft_putendl("sn1");
 	if (!src || !*src)
 		return (0);
-	ft_putendl("sn2");
-	while (*src[i] != '\0' && *src[i] != '\n')
+	while (src[0][i] != '\0' && src[0][i] != '\n')
 		i++;
-	while (*src[i + w] == '\n')
-		w++;
-	if (*src[w] == '\0')
+	if (src[0][0] == '\0' || src[0][i] == '\0')
 		return (0);
-	ft_putendl("sn3");
 	*dest = ft_strsub(*src, 0, i);
-	temp_str = ft_strdup(&src[0][i + w]);
-	free(src);
+	temp_str = ft_strdup(&src[0][i + 1]);
+	free(*src);
 	*src = ft_strdup(temp_str);
 	free(temp_str);
-	ft_putendl("sn4");
+	ft_putstr("src inside search_newline: ");
 	ft_putendl(*src);
-	ft_putendl(*dest);
 	return (1);
 }
 
-static void		ft_lstaddcont(t_list **alst, int fd, char *src)
+char	*get_data(char **array, int index)
 {
-	t_list	*temp;
-	int		number_of_fds;
+	int		i;
+	char	*returnable;
 
-	temp = *alst;
-	number_of_fds = 0;
-	while (temp && number_of_fds < fd)
-	{
-		number_of_fds++;
-		temp = temp->next;
-	}
-	free(temp->content);
-	temp->content = ft_strdup(src);
-}
-
-static int		check_fd(int fd, char **dest, t_list **all_fds)
-{
-	t_list	*temp;
-	t_list	*previous;
-	int		number_of_fds;
-
-	temp = *all_fds;
-	number_of_fds = 0;
-	previous = NULL;
-	while (temp && number_of_fds < fd)
-	{
-		number_of_fds++;
-		previous = temp;
-		temp = temp->next;
-	}
-	if (temp == NULL)
-	{
-		while (number_of_fds <= fd)
-		{
-			temp = ft_lstnew(NULL, 0);
-			if(previous)
-				previous->next = temp;
-			else
-				*all_fds = temp;
-			number_of_fds++;
-		}
-	}
-	else
-		*dest = temp->content;
-	return (1);
+	i = 0;
+	returnable = NULL;
+	while (array[i] != NULL)
+		i++;
+	if (i > index)
+		returnable = ft_strdup(array[index]);
+	return (returnable);
 }
 
 static int		ft_dynamic_string(char **dest, char *src, int num)
@@ -101,43 +93,42 @@ static int		ft_dynamic_string(char **dest, char *src, int num)
 	return (1);
 }
 
-int		get_next_line(const int fd, char** line)
+int get_next_line(const int fd, char **line)
 {
-	int				bytes;
-	char			*buf;
-	char			*all_data;
-	char			*returnable_data;
-	static t_list	*all_fds = NULL;
+	static char	*fds[] = { NULL };
+	char		*buf;
+	char		*all_data;
+	int			bytes;
+	int			returnable;
+	char		*returnable_data;
 
-	all_data = NULL;
 	*line = NULL;
-	returnable_data = NULL;
 	bytes = BUFF_SIZE;
+	returnable_data = NULL;
 	if (fd == -1)
 		return (-1);
-	check_fd(fd, &all_data, &all_fds);
 	buf = ft_strnew(BUFF_SIZE);
-	while (bytes > 0 && search_newline(&returnable_data, &all_data) == 0)
+	all_data = get_data(fds, fd);
+	ft_putstr("fd: ");
+	ft_putnbr(fd);
+	ft_putstr("all_data after get_data: ");
+	if (all_data != NULL)
+		ft_putendl(all_data);
+	returnable = search_newline(&returnable_data, &all_data);
+	while (bytes == BUFF_SIZE && returnable == 0)
 	{
+		ft_putendl("inside while");
 		bytes = read(fd, buf, BUFF_SIZE);
+			if (bytes == -1)
+			return (-1);
 		ft_dynamic_string(&all_data, buf, bytes);
-		if (fd == 0 && buf[BUFF_SIZE - 1] == '\n')
-			break;
-		ft_putendl("hello5");
+		returnable = search_newline(&returnable_data, &all_data);
 	}
-	ft_putendl("hello4");
-	if (bytes == -1)
-		return (-1);
-	if (bytes == 0 && search_newline(&returnable_data, &all_data) == 0)
-		return (0);
+	ft_add_string((char***)&fds, all_data, fd);
+	ft_putstr("string in fds array");
+	ft_putendl(fds[fd]);
 	free(buf);
-	ft_lstaddcont(&all_fds, fd, all_data);
 	free(all_data);
-	ft_putendl("hello");
-	ft_putendl(returnable_data);
-	ft_putendl("hello2");
-	*line = ft_strdup(returnable_data);
-	ft_putendl("hello3");
-	free (returnable_data);
-	return (1);
+	*line = returnable_data;
+	return (returnable);
 }

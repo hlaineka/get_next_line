@@ -19,13 +19,6 @@
 # define BUFF_SIZE 8
 # define FD_LIMIT 4864
 
-//typedef struct		s_fdlist
-//{
-//	int				fd;
-//	char			*data;
-//	struct s_fdlist	*next;
-//}					t_fdlist;
-
 int					get_next_line(const int fd, char **line);
 
 #endif
