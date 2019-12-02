@@ -34,6 +34,7 @@ char	**ft_addstr(char **dest, char *src)
 	while (w < i)
 	{
 		returnable[w] = ft_strdup(dest[w]);
+		free(dest[w]);
 		w++;
 	}
 	returnable[w] = ft_strdup(src);

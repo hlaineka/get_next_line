@@ -55,7 +55,7 @@ int get_next_line(const int fd, char **line)
 	int			returnable;
 
 	*line = NULL;
-	bytes = BUFF_SIZE;
+	bytes = BUFF_SIZE + 1;
 	if (fd == -1)
 		return (-1);
 	buf = ft_strnew(BUFF_SIZE);
@@ -74,5 +74,8 @@ int get_next_line(const int fd, char **line)
 	fds[fd] = ft_strdup(all_data);
 	free(buf);
 	free(all_data);
-	return (returnable);
+	ft_putnbr(bytes);
+	if ((bytes <= 0 || bytes > BUFF_SIZE) && fds[fd][0] == '\0')
+		return (0);
+	return (1);
 }
