@@ -1,26 +1,49 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hlaineka <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/12/03 10:38:16 by hlaineka          #+#    #+#             */
+/*   Updated: 2019/12/03 11:05:01 by hlaineka         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
 static int		search_newline(char **dest, char **src)
 {
 	int		i;
 	char	*temp_str;
-	
+	int		returnable;
+
 	i = 0;
+	returnable = 1;
 	if (!src || !*src || src[0][0] == '\0')
 		return (0);
 	while (src[0][i] != '\0' && src[0][i] != '\n')
 		i++;
-	if (src[0][i] == '\0')
-		return (0);
-	*dest = ft_strsub(*src, 0, i);
+	if (*dest)
+	{
+		temp_str = ft_strjoin(*dest, ft_strsub(*src, 0, i));
+		free(*dest);
+		*dest = temp_str;
+		free(temp_str);
+	}
+	else
+		*dest = ft_strsub(*src, 0, i);
 	if (src[0][i] == '\n')
 		temp_str = ft_strdup(&src[0][i + 1]);
 	else
+	{
 		temp_str = ft_strdup(&src[0][i]);
+		returnable = 0;
+	}
 	free(*src);
 	*src = ft_strdup(temp_str);
 	free(temp_str);
-	return (1);
+	return (returnable);
 }
 
 static int		ft_dynamic_string(char **dest, char *src, int num)
@@ -46,7 +69,7 @@ static int		ft_dynamic_string(char **dest, char *src, int num)
 	return (1);
 }
 
-int get_next_line(const int fd, char **line)
+int				get_next_line(const int fd, char **line)
 {
 	static char	*fds[FD_LIMIT];
 	char		*buf;
@@ -62,7 +85,7 @@ int get_next_line(const int fd, char **line)
 	all_data = NULL;
 	if (fds[fd] != NULL)
 		all_data = ft_strdup(fds[fd]);
-	returnable = search_newline(line, &all_data);
+	returnable = (ft_strchr(all_data, '\n') != 0);
 	while (bytes > 0 && returnable == 0)
 	{
 		bytes = read(fd, buf, BUFF_SIZE);
@@ -74,7 +97,6 @@ int get_next_line(const int fd, char **line)
 	fds[fd] = ft_strdup(all_data);
 	free(buf);
 	free(all_data);
-	ft_putnbr(bytes);
 	if ((bytes <= 0 || bytes > BUFF_SIZE) && fds[fd][0] == '\0')
 		return (0);
 	return (1);

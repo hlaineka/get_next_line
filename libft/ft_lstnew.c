@@ -6,13 +6,13 @@
 /*   By: hlaineka <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 14:11:40 by hlaineka          #+#    #+#             */
-/*   Updated: 2019/10/30 17:06:33 by hlaineka         ###   ########.fr       */
+/*   Updated: 2019/12/03 11:10:03 by hlaineka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/* 
+/*
 ** creates a new t_list variable with given content and size. If content is
 ** NULL, is pointer to content set to NULL and size to zero. Pointer to next
 ** is always set to NULL

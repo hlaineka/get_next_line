@@ -6,7 +6,7 @@
 /*   By: hlaineka <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 12:34:18 by hlaineka          #+#    #+#             */
-/*   Updated: 2019/10/21 12:34:21 by hlaineka         ###   ########.fr       */
+/*   Updated: 2019/12/03 11:10:31 by hlaineka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*ft_strdup(const char *s)
 	returnable = (char*)malloc(sizeof(char) * (length + 1));
 	i = 0;
 	if (s == NULL)
-			return (NULL);
+		return (NULL);
 	if (returnable)
 	{
 		while (s[i] != '\0')

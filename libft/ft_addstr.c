@@ -6,13 +6,13 @@
 /*   By: hlaineka <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 11:54:01 by hlaineka          #+#    #+#             */
-/*   Updated: 2019/10/30 11:55:13 by hlaineka         ###   ########.fr       */
+/*   Updated: 2019/12/03 11:05:40 by hlaineka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/* 
+/*
 ** Adds a new string to string array. When using with  empty strarray, set the
 ** pointer to NULL
 */

@@ -15,7 +15,6 @@
 # include "libft/includes/libft.h"
 # include <unistd.h>
 # include <stdlib.h>
-# include <string.h>
 # define BUFF_SIZE 8
 # define FD_LIMIT 4864
 

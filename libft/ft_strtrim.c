@@ -6,14 +6,14 @@
 /*   By: hlaineka <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 14:36:01 by hlaineka          #+#    #+#             */
-/*   Updated: 2019/10/30 12:00:04 by hlaineka         ###   ########.fr       */
+/*   Updated: 2019/12/03 11:15:34 by hlaineka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /*
-** Allocates and returns a copy of the string given as argument without 
+** Allocates and returns a copy of the string given as argument without
 ** whitespsaces at the beginning or at the end of string. Will be considered as
 ** whitespaces the following characters ' ', '\n', '\t'. If S has no white-
 ** spaces at the beginning or at the ends, the function returns a copy of S.

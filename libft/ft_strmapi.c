@@ -6,15 +6,15 @@
 /*   By: hlaineka <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 17:13:51 by hlaineka          #+#    #+#             */
-/*   Updated: 2019/10/29 11:18:26 by hlaineka         ###   ########.fr       */
+/*   Updated: 2019/12/03 11:12:03 by hlaineka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/* 
+/*
 ** Applies the function f to each character of the string given as argument
-** by giving its index as first argument to create a "fresh" new string 
+** by giving its index as first argument to create a "fresh" new string
 ** resulting from successive application of f
 */
 

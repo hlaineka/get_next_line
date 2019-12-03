@@ -6,16 +6,16 @@
 /*   By: hlaineka <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 12:23:25 by hlaineka          #+#    #+#             */
-/*   Updated: 2019/10/29 12:42:27 by hlaineka         ###   ########.fr       */
+/*   Updated: 2019/12/03 11:12:46 by hlaineka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /*
-** Allocates and returns a "fresh" substring from the string given as argument. 
-** The substring begins at index START and is of size LEN. If START and LEN 
-** aren't refering to a valid substring, the behavior is undefined. If the 
+** Allocates and returns a "fresh" substring from the string given as argument.
+** The substring begins at index START and is of size LEN. If START and LEN
+** aren't refering to a valid substring, the behavior is undefined. If the
 ** allocation fails, the function return NULL
 */
 

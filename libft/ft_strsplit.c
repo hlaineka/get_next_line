@@ -6,13 +6,13 @@
 /*   By: hlaineka <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 14:34:37 by hlaineka          #+#    #+#             */
-/*   Updated: 2019/10/31 11:43:55 by hlaineka         ###   ########.fr       */
+/*   Updated: 2019/12/03 11:16:03 by hlaineka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/* 
+/*
 ** Allocates and returns an array of "fresh" strings (all ending with '\0'
 ** including the array itself) obtained by splitting s using the character c
 ** as a delimeter. I the allocation fails, the function returns NULL

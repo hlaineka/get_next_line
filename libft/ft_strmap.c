@@ -6,7 +6,7 @@
 /*   By: hlaineka <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 16:42:08 by hlaineka          #+#    #+#             */
-/*   Updated: 2019/10/29 11:17:47 by hlaineka         ###   ########.fr       */
+/*   Updated: 2019/12/03 11:12:25 by hlaineka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /*
 ** Applies the function f to each character of the string given as argument
-** to create a "fresh" new string restulting from the successice applications 
+** to create a "fresh" new string restulting from the successice applications
 ** of f.
 */
 
