@@ -44,6 +44,11 @@ then5:
 	clang -Wall -Wextra -Werror -I libft/includes -o main5.o -c main5.c
 	clang -o get_next_line5 main5.o get_next_line.o -I libft/includes -L libft/ -lft
 
+then6: 
+	clang -Wall -Wextra -Werror -I libft/includes -o get_next_line.o -c get_next_line.c
+	clang -Wall -Wextra -Werror -I libft/includes -o main6.o -c main6.c
+	clang -o get_next_line6 main6.o get_next_line.o -I libft/includes -L libft/ -lft
+
 clean:
 	rm -f $(OSRC)
 

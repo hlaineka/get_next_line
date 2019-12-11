@@ -38,8 +38,8 @@ char	*ft_strjoin(const char *s1, const char *s2)
 				returnable[i++] = s2[w++];
 			}
 			returnable[i] = '\0';
+			return (returnable);
 		}
-		return (returnable);
 	}
 	return (NULL);
 }

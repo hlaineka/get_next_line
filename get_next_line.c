@@ -1,103 +1,59 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: hlaineka <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/03 10:38:16 by hlaineka          #+#    #+#             */
-/*   Updated: 2019/12/03 11:05:01 by hlaineka         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "get_next_line.h"
+#include "libft.h"
 
-static int		search_newline(char **dest, char **src)
+static	int		input_line(char *str[], char **line, const int fd)
 {
-	int		i;
-	char	*temp_str;
-	int		returnable;
+	size_t		len;
+	char		*tmp;
 
-	i = 0;
-	returnable = 1;
-	if (!src || !*src || src[0][0] == '\0')
-		return (0);
-	while (src[0][i] != '\0' && src[0][i] != '\n')
-		i++;
-	if (*dest)
+	len = 0;
+	if (ft_strchr(str[fd], '\n'))
 	{
-		temp_str = ft_strjoin(*dest, ft_strsub(*src, 0, i));
-		free(*dest);
-		*dest = temp_str;
-		free(temp_str);
+		while ((str[fd][len] != '\n' && str[fd][len] != '\0'))
+			len++;
+		if (!(*line = ft_strsub(str[fd], 0, len)))
+			return (-1);
+		if (str[fd][len + 1] != '\0')
+		{
+			tmp = ft_strdup(&str[fd][len + 1]);
+			ft_strdel(&str[fd]);
+			str[fd] = tmp;
+		}
+		else
+			ft_strdel(&str[fd]);
 	}
 	else
-		*dest = ft_strsub(*src, 0, i);
-	if (src[0][i] == '\n')
-		temp_str = ft_strdup(&src[0][i + 1]);
-	else
 	{
-		temp_str = ft_strdup(&src[0][i]);
-		returnable = 0;
+		*line = ft_strdup(str[fd]);
+		ft_strdel(&str[fd]);
 	}
-	free(*src);
-	*src = ft_strdup(temp_str);
-	free(temp_str);
-	return (returnable);
-}
-
-static int		ft_dynamic_string(char **dest, char *src, int num)
-{
-	char	*returnable;
-	char	*temp_src;
-
-	temp_src = ft_strnew(num + 1);
-	temp_src = ft_memcpy(temp_src, src, num);
-	temp_src[num] = '\0';
-	returnable = NULL;
-	if (!*dest)
-		*dest = ft_strdup(temp_src);
-	else
-	{
-		returnable = ft_strjoin(*dest, temp_src);
-		free(temp_src);
-		temp_src = *dest;
-		*dest = ft_strdup(returnable);
-		free(returnable);
-	}
-	free(temp_src);
 	return (1);
 }
 
 int				get_next_line(const int fd, char **line)
 {
-	static char	*fds[FD_LIMIT];
-	char		*buf;
-	char		*all_data;
-	int			bytes;
-	int			returnable;
+	int			ret;
+	static char	*str[2048];
+	char		buff[BUFF_SIZE + 1];
+	char		*tmp;
 
-	*line = NULL;
-	bytes = BUFF_SIZE + 1;
-	if (fd == -1)
-		return (-1);
-	buf = ft_strnew(BUFF_SIZE);
-	all_data = NULL;
-	if (fds[fd] != NULL)
-		all_data = ft_strdup(fds[fd]);
-	returnable = (ft_strchr(all_data, '\n') != 0);
-	while (bytes > 0 && returnable == 0)
+	while (line != NULL && ((ret = read(fd, buff, BUFF_SIZE)) > 0))
 	{
-		bytes = read(fd, buf, BUFF_SIZE);
-		if (bytes == -1)
+		if (str[fd] == NULL && !(str[fd] = ft_strnew(0)))
 			return (-1);
-		ft_dynamic_string(&all_data, buf, bytes);
-		returnable = search_newline(line, &all_data);
+		buff[ret] = '\0';
+		if (!(tmp = ft_strjoin(str[fd], buff)))
+			return (-1);
+		ft_strdel(&str[fd]);
+		str[fd] = tmp;
+		if (ft_strchr(tmp, '\n'))
+			return (input_line(str, line, fd));
 	}
-	fds[fd] = ft_strdup(all_data);
-	free(buf);
-	free(all_data);
-	if ((bytes <= 0 || bytes > BUFF_SIZE) && fds[fd][0] == '\0')
-		return (0);
-	return (1);
+	if (ret < 0 || fd < 0 || line == NULL)
+		return (-1);
+	else if ((ret == 0) && (str[fd] != NULL))
+		return (input_line(str, line, fd));
+	else
+		return ((int)(*line = NULL));
 }
