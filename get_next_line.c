@@ -12,6 +12,10 @@
 
 #include "get_next_line.h"
 
+/*
+** reallocation of a string. Allocates space for the new string and copies the
+** source string from index start to end. Frees the old string.
+*/
 static char		*ft_str_realloc(char *src, int start, int end)
 {
 	char	*new_str;
@@ -21,6 +25,12 @@ static char		*ft_str_realloc(char *src, int start, int end)
 	return (new_str);
 }
 
+/*
+** searches the source string for newline or end of string. If newline is
+** not found, returns 0. If newline is found, copies source string until
+** the newline to the end of destination string, and removes all data until
+** newline from source string. Uses ft_str_realloc to string reallocation
+*/
 static int		search_newline(char **dest, char **src)
 {
 	int		i;
@@ -42,6 +52,12 @@ static int		search_newline(char **dest, char **src)
 	return (0);
 }
 
+/*
+** dynamically allocates more space for string as more data is added to it.
+** handles memory so that there are no memoryleaks. The incoming string does
+** not have to be nullterminated, mut the length of the string is required. 
+** Good when used with read().
+*/
 static char		*ft_dynamic_string(char **dest, char *src, int num)
 {
 	char	*returnable;
@@ -65,6 +81,12 @@ static char		*ft_dynamic_string(char **dest, char *src, int num)
 	return (*dest);
 }
 
+/* 
+** reads the fd given as parameter and writes a string from the input that
+** is until newline or EOF to the parameter line. The newline characters are
+** nor included in line. Returns one every time it writes a line to line and
+** zero ones the EOF has been reached. 
+*/
 int				get_next_line(const int fd, char **line)
 {
 	static char	*fds[FD_LIMIT];
