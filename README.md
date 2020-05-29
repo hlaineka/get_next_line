@@ -2,8 +2,8 @@
 
 A function written by me (Helvi Lainekallio) during my studies in Hive Helsinki.
 
-The function takes as parameter the fd where if reads from and a string line, where it writes the data it has read, until newline
-or EOF. The function returns 1 every there is a line to be read and 0 ones it finds EOF. The function is able to handle multiple
+The function takes as parameter the *fd* where if reads from and a string *line*, where it writes the data it has read, until newline
+or EOF. The function returns 1 every time there is a line to be read and 0 ones it finds EOF. The function is able to handle multiple
 open file descriptors
 
 The function uses the library libft, also written by me during my studies. 
