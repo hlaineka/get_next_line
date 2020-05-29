@@ -5,6 +5,7 @@ A function written by me (Helvi Lainekallio) during my studies in Hive Helsinki.
 ```
 int     get_next_line(const int fd, char **line);
 ```
+[Subject for this project](get_next_line.en.pdf)
 
 The function takes as parameter the *fd* where if reads from and a string *line*, where it writes the data it has read, until newline
 or EOF has been reached. The function returns 1 every time it has read a line and 0 when it finds EOF. The function is able to handle multiple open file descriptors.
