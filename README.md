@@ -2,6 +2,10 @@
 
 A function written by me (Helvi Lainekallio) during my studies in Hive Helsinki.
 
+'''
+int					get_next_line(const int fd, char **line);
+'''
+
 The function takes as parameter the *fd* where if reads from and a string *line*, where it writes the data it has read, until newline
 or EOF. The function returns 1 every time there is a line to be read and 0 ones it finds EOF. The function is able to handle multiple
 open file descriptors
